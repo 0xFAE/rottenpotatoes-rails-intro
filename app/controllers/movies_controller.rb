@@ -7,10 +7,12 @@ class MoviesController < ApplicationController
   end
 
   def index
+   
     @all_ratings = Movie.all_ratings
     ratings = params[:ratings]
     @checked = (ratings.present? ? ratings.keys : @all_ratings)
     @movies = Movie.where(:rating => @checked)
+    
   end
 
   def new
