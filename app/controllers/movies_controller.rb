@@ -21,7 +21,7 @@ class MoviesController < ApplicationController
       @checked = params[:ratings]
       session[:ratings] = @checked
     else
-      @checked = session[:ratings] || {'G'=>1,'PG'=>1,'PG-13'=>1,'R'=>1}
+      @checked = session[:ratings] || Hash[@all_ratings.map {|rating| [rating, 1]}]
     end
     
     if !params[:sort] && !params[:ratings]
