@@ -37,7 +37,7 @@ class MoviesController < ApplicationController
       @title_header = ''
     end
     
-       @movies = Movie.order(sort).where(rating: @checked)
+       @movies = Movie.where(rating: @checked.keys).order(sort) 
   end
 
   def new
