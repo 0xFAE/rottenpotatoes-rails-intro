@@ -9,16 +9,35 @@ class MoviesController < ApplicationController
   def index
     
     @all_ratings = Movie.all_ratings
-    ratings = params[:ratings]
-    sort = params[:sort]
-    @checked = (ratings.present? ? ratings.keys : @all_ratings)
-    @movies = Movie.where(:rating => @checked)
-    if sort == 'title'
-      @movies = @movies.order(:title)
-    elsif sort == 'release_date'
-      @movies = @movies.order(:release_date)
+    
+    if !params[:sort].nil?
+       sort = params[:sort]
+      session[:sort] = sort
+    else
+      sort = session[:sort]
     end
     
+    if !params[:ratings].nil?
+      @checked = params[:ratings]
+      session[:ratings] = @checked
+    else
+      @checked = session[:ratings] || {'G'=>1,'PG'=>1,'PG-13'=>1,'R'=>1}
+    end
+    
+    if !params[:sort] && !params[:ratings]
+      flash.keep
+      redirect_to movies_path(:ratings => @checked, :sort => sort) and return
+    end
+    
+    if sort == 'title'
+      @title_header = 'bg-warning'
+      @release_date_header = ''
+    elsif sort == 'release_date'
+      @release_date_header = 'bg-warning'
+      @title_header = ''
+    end
+    
+       @movies = Movie.order(sort).where(rating: @checked)
   end
 
   def new
