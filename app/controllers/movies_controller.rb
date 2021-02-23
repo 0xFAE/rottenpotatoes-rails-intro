@@ -42,7 +42,7 @@ class MoviesController < ApplicationController
     if redirect_page 
       flash.keep
       redirect_to movies_path(:ratings => @checked, :sort => sort) and return
-
+    end
     
     
     
