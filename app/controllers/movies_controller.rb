@@ -26,7 +26,7 @@ class MoviesController < ApplicationController
     end
     
   
-    if !params[:ratings].present? || (!params[:sort].present? && @sort_by != [])
+    if !params[:sort] && !params[:ratings] && params[:home] && params[:ratings] != session[:ratings]
       flash.keep
       @checked= Hash[@all_ratings.map {|rating| [rating, 1]}]
       redirect_to movies_path(:ratings => @checked, :sort => sort) and return
