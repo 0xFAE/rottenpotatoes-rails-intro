@@ -15,7 +15,7 @@ class MoviesController < ApplicationController
        sort = params[:sort]
       session[:sort] = sort
     else
-      sort = session[:sort]
+      sort = session[:sort] || []
     end
     
     if !params[:ratings].nil?
