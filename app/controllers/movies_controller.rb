@@ -10,12 +10,6 @@ class MoviesController < ApplicationController
     
     @all_ratings = Movie.all_ratings
     
-    
-    if (params[:session] == "clear") || !params[:home]
-      session[:sort] = nil
-      session[:ratings] = Hash[@all_ratings.map {|rating| [rating, 1]}]
-    end
-    
     if !params[:sort].nil?
        sort = params[:sort]
       session[:sort] = sort
