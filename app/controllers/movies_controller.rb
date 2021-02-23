@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     
     
-    if (params[:session] == "clear")
+    if (params[:session] == "clear") || !params[:home]
       session[:sort] = nil
       session[:ratings] = @all.ratings
     end
