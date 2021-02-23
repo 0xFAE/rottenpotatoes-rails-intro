@@ -10,6 +10,11 @@ class MoviesController < ApplicationController
     
     @all_ratings = Movie.all_ratings
     
+    if !params[:home]
+      session[:sort] = nil
+      session[:ratings] = Hash[@all_ratings.map {|rating| [rating, 1]}]
+
+    
     if !params[:sort].nil?
        sort = params[:sort]
       session[:sort] = sort
@@ -30,6 +35,8 @@ class MoviesController < ApplicationController
       @checked= Hash[@all_ratings.map {|rating| [rating, 1]}]
       redirect_to movies_path(:ratings => @checked, :sort => sort) and return
     end
+    
+    
     
     if sort == 'title'
       @title_header = 'bg-warning'
