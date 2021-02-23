@@ -20,17 +20,17 @@ class MoviesController < ApplicationController
     if !params[:sort].nil?
        sort = params[:sort]
       session[:sort] = sort
-      redirect_page = true
     else
       sort = session[:sort] || []
+      redirect_page = true
     end
     
     if !params[:ratings].nil?
       @checked = params[:ratings]
       session[:ratings] = @checked
-      redirect_page = true
     else
       @checked = session[:ratings] || Hash[@all_ratings.map {|rating| [rating, 1]}]
+      redirect_page = true
     end
     
   
