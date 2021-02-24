@@ -41,7 +41,7 @@ class MoviesController < ApplicationController
   #    redirect_to movies_path(:ratings => @checked, :sort => sort) and return
   #  end
     
-    if redirect
+    if @redirect
            flash.keep
           redirect_to movies_path(:ratings => @checked, :sort => sort) and return
      #   else
