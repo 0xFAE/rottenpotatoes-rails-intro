@@ -20,7 +20,7 @@ class MoviesController < ApplicationController
        sort = params[:sort]
       session[:sort] = sort
     else
-     sort = session[:sort] || []
+     sort = session[:sort] || sort
     end
     
     if !params[:ratings].nil?
@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
     
     if  !params[:sort] && !params[:ratings]  && params[:home]
       flash.keep
-      redirect_to movies_path(:ratings => @checked, :sort => sort) and return
+      redirect_to movies_path(:ratings => session[:ratings], :sort => session[:sort]) and return
     end
     
     
