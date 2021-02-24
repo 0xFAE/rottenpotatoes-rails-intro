@@ -11,9 +11,8 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @redirect = false
 
-    if !params.include?(:home)
-      session.delete(:ratings) 
-      session.delete(:sort) 
+    if !params[:ratings] && !params[:sort] && !session[:sort] && session[:ratings]
+      session.clear 
     end
     
     if !params[:sort].nil?
