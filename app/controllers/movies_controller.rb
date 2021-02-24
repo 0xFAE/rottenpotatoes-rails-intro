@@ -27,8 +27,7 @@ class MoviesController < ApplicationController
     
     if !params[:ratings].nil?
       @checked = params[:ratings]
-      session[:ratings] = @checked
-    elsif 
+    elsif session[:ratings]
        @checked = session[:ratings] 
        @redirect = true
     else
