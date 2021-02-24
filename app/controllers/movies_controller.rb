@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     
 
-    if !params[:ratings] && !session[:ratings] && !session[:sort]
+    if !params.include?(:home)
       session.delete(:ratings) 
       session.delete(:sort) 
     end
@@ -36,7 +36,7 @@ class MoviesController < ApplicationController
   #    redirect_to movies_path(:ratings => @checked, :sort => sort) and return
   #  end
     
-    if  !params[:sort] && session[:sort]
+    if  !params[:sort] && session[:sort] 
       flash.keep
       redirect_to movies_path(:ratings => session[:ratings], :sort => session[:sort]) and return
     end
@@ -44,10 +44,10 @@ class MoviesController < ApplicationController
     
     
     if sort == 'title'
-      @title_header = 'bg-warning'
+      @title_header = 'hilite bg-warning'
       @release_date_header = ''
     elsif sort == 'release_date'
-      @release_date_header = 'bg-warning'
+      @release_date_header = 'hilite bg-warning'
       @title_header = ''
     end
     
