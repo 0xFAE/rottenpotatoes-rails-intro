@@ -18,19 +18,22 @@ class MoviesController < ApplicationController
     
     if !params[:sort].nil?
        sort = params[:sort]
-      session[:sort] = sort
+    elsif
+     sort = session[:sort] 
     else
-     sort = session[:sort] || []
+      sort = []
     end
     
     if !params[:ratings].nil?
       @checked = params[:ratings]
       session[:ratings] = @checked
+    elsif 
+       @checked = session[:ratings] 
     else
-       @checked = session[:ratings] || Hash[@all_ratings.map {|rating| [rating, 1]}]
-    end
+       @checked =  Hash[@all_ratings.map {|rating| [rating, 1]}]
+    end  
     
-  
+
    # if !params[:sort] && !params[:ratings]  && params[:home]
   #    @checked= Hash[@all_ratings.map {|rating| [rating, 1]}]
   #    redirect_to movies_path(:ratings => @checked, :sort => sort) and return
@@ -38,9 +41,8 @@ class MoviesController < ApplicationController
     
     if  !params[:sort] && session[:sort] 
       flash.keep
-      redirect_to movies_path(:ratings => session[:ratings], :sort => session[:sort]) and return
+      redirect_to movies_path(:ratings => @checked, :sort => sort) and return
     end
-    
     
     
     if sort == 'title'
@@ -52,6 +54,9 @@ class MoviesController < ApplicationController
     end
     
        @movies = Movie.where(rating: @checked.keys).order(sort) 
+       
+    session[:sort] = sort
+    session[:ratings] = @checked
   end
 
   def new
