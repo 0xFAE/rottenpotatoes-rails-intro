@@ -10,9 +10,8 @@ class MoviesController < ApplicationController
     
     @all_ratings = Movie.all_ratings
     
-    redirect_page = false
-    
-    if !params[:ratings] && !params[:home] 
+
+    if !params[:ratings] && !params[:home] && !params[:session]
       session.delete(:ratings) 
       session.delete(:sort) 
     end
@@ -22,7 +21,6 @@ class MoviesController < ApplicationController
       session[:sort] = sort
     else
       params[:sort] = session[:sort] || []
-      redirect_page = true
     end
     
     if !params[:ratings].nil?
@@ -30,7 +28,6 @@ class MoviesController < ApplicationController
       session[:ratings] = @checked
     else
       params[:ratings] = session[:ratings] || Hash[@all_ratings.map {|rating| [rating, 1]}]
-      redirect_page = true
     end
     
   
@@ -39,7 +36,7 @@ class MoviesController < ApplicationController
   #    redirect_to movies_path(:ratings => @checked, :sort => sort) and return
   #  end
     
-    if redirect_page 
+    if  !params[:sort] && !params[:ratings]  && params[:home]
       flash.keep
       redirect_to movies_path(:ratings => session[:ratings], :sort => session[:sort]) and return
     end
