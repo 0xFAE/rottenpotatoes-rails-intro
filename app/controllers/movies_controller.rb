@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
     if !params.include?(:home)
       session.delete(:ratings) 
       session.delete(:sort) 
-    #end
+    end
     
     if !params[:sort].nil?
        sort = params[:sort]
@@ -65,6 +65,7 @@ class MoviesController < ApplicationController
     session[:sort] = params[:ratings]
     session[:ratings] = params[:session]
     end
+    
   end
 
   def new
