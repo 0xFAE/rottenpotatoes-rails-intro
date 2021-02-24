@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     
 
-    if !params[:ratings] && !params[:session]
+    if !params[:ratings] && !session[:ratings] && !session[:sort]
       session.delete(:ratings) 
       session.delete(:sort) 
     end
