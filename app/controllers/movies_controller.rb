@@ -59,11 +59,8 @@ class MoviesController < ApplicationController
     end
     
        @movies = Movie.where(rating: @checked.keys).order(sort) 
-       
-    if params[:ratings] != session[:ratings] && params[:sort] != session[:sort]  && params[:ratings] 
-    session[:sort] = params[:ratings]
-    session[:ratings] = params[:session]
-    end
+       session[:sort] = sort
+       session[:ratings] = @checked
     
   end
 
