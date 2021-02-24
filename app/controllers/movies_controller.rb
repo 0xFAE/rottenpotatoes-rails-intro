@@ -11,9 +11,9 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @redirect = false
 
-    #if !params.include?(:home)
-    #  session.delete(:ratings) 
-    #  session.delete(:sort) 
+    if !params.include?(:home)
+      session.delete(:ratings) 
+      session.delete(:sort) 
     #end
     
     if !params[:sort].nil?
@@ -61,8 +61,10 @@ class MoviesController < ApplicationController
     
        @movies = Movie.where(rating: @checked.keys).order(sort) 
        
-    session[:sort] = sort
-    session[:ratings] = @checked
+    if params[:ratings] != session[:ratings] && params[:sort] != session[:sort]  && params[:ratings] 
+    session[:sort] = params[:ratings]
+    session[:ratings] = params[:session]
+    end
   end
 
   def new
