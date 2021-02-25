@@ -11,44 +11,34 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.all_ratings
     @redirect = false
 
-    #if !params.include?(:home)
-    
-    #  session.clear
-    #end
-    
-    if !params[:sort].nil?
-       sort = params[:sort]
-    elsif session[:sort]
-     sort = session[:sort] 
-     @redirect = true
-    else
-      sort = []
+    if request.path == '/' 
+      reset_session
     end
     
-    if !params[:ratings].nil?
+  if !params[:sort].nil?
+       sort = params[:sort]
+      session[:sort] = sort
+  else
+      sort = session[:sort] || []
+  end
+
+  if !params[:ratings].nil?
       @checked = params[:ratings]
-    elsif session[:ratings]
-       @checked = session[:ratings] 
-       @redirect = true
-    else
-       @checked =  Hash[@all_ratings.map {|rating| [rating, 1]}]
-    end  
+      session[:ratings] = @checked
+  else
+      @checked = session[:ratings] || Hash[@all_ratings.map {|rating| [rating, 1]}]
+  end
     
 
    # if !params[:sort] && !params[:ratings]  && params[:home]
   #    @checked= Hash[@all_ratings.map {|rating| [rating, 1]}]
   #    redirect_to movies_path(:ratings => @checked, :sort => sort) and return
   #  end
-    
-    if @redirect
-           flash.keep
-          redirect_to movies_path(:ratings => @checked, :sort => sort) and return
-     #   else
-    #      session.delete(:ratings) 
-    #     session.delete(:sort) 
-    #    end
+    if !params[:sort] && !params[:ratings] && params[:ratings] != session[:ratings]
+      flash.keep
+      @checked= Hash[@all_ratings.map {|rating| [rating, 1]}]
+      redirect_to movies_path(:ratings => @checked, :sort => sort) and return
     end
-    
     
     if sort == 'title'
       @title_header = 'hilite bg-warning'
